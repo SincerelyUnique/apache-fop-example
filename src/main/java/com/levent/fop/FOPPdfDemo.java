@@ -19,37 +19,40 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
 public class FOPPdfDemo {
-	
-	public static final String RESOURCES_DIR;
-	public static final String OUTPUT_DIR;
+
+	private static final String RESOURCES_DIR;
+	private static final String OUTPUT_DIR;
 	
 	static {
+		// 资源路径
 		RESOURCES_DIR = "src//main//resources//";
+		// 输出路径
 		OUTPUT_DIR = "src//main//resources//output//";
 	}
-	
+
+	/**
+	 * 测试方法
+	 */
 	public static void main(String[] args) {
 		FOPPdfDemo fOPPdfDemo = new FOPPdfDemo();
 		try {
 			fOPPdfDemo.convertToFO();
+			fOPPdfDemo.convertToPDF();
 		} catch (FOPException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Method that will convert the given XML to PDF
-	 * 
-	 * @throws IOException
-	 * @throws FOPException
-	 * @throws TransformerException
+	 * 将指定的XML文件转为PDF文件
+	 *
+	 * @throws IOException IOE
+	 * @throws FOPException FOPE
+	 * @throws TransformerException TE
 	 */
 	public void convertToPDF() throws IOException, FOPException, TransformerException {
 		// the XSL FO file
@@ -86,13 +89,13 @@ public class FOPPdfDemo {
 	}
 
 	/**
-	 * This method will convert the given XML to XSL-FO
-	 * 
-	 * @throws IOException
-	 * @throws FOPException
-	 * @throws TransformerException
+	 * 将指定的XML文件转为XSL-FO文件
+	 *
+	 * @throws IOException	IOE
+	 * @throws FOPException FOPE
+	 * @throws TransformerException TE
 	 */
-	public void convertToFO() throws IOException, FOPException, TransformerException {
+	private void convertToFO() throws IOException, FOPException, TransformerException {
 		// the XSL FO file
 		File xsltFile = new File(RESOURCES_DIR + "//template.xsl");
 
