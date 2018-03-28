@@ -15,7 +15,8 @@ import org.plutext.jaxb.xslfo.RegionStart;
 import org.plutext.jaxb.xslfo.Root;
 import org.plutext.jaxb.xslfo.SimplePageMaster;
 import org.plutext.jaxb.xslfo.StaticContent;
-import org.plutext.jaxb.xslfo.TextAlignType;
+
+import java.io.*;
 
 public class SurrenderTemp {
 
@@ -23,11 +24,11 @@ public class SurrenderTemp {
 	 * 返回一个Root对象
 	 */
 	public Root createRoot() throws Exception{
-		Root root =new Root();
-		root.setFontFamily("SimSun"); //��������
+		Root root = new Root();
+		root.setFontFamily("SimSun"); //设置字体
 		LayoutMasterSet layMas = new LayoutMasterSet();
-		SimplePageMaster simplePageMaster =new SimplePageMaster();
-		simplePageMaster=buildPageLayout(simplePageMaster);
+		SimplePageMaster simplePageMaster = new SimplePageMaster();
+		simplePageMaster = buildPageLayout(simplePageMaster);
 		layMas.getSimplePageMasterOrPageSequenceMaster().add(simplePageMaster);
 		root.setLayoutMasterSet(layMas);
 		root.getPageSequence().add(createPageSequence(new PageSequence()));
@@ -37,7 +38,7 @@ public class SurrenderTemp {
 	/**
 	 * 构建页面布局
 	 */
-	public  SimplePageMaster buildPageLayout( SimplePageMaster simplePageMaster) {
+	private SimplePageMaster buildPageLayout( SimplePageMaster simplePageMaster) {
 		
 		simplePageMaster.setMasterName("healthy");
 		simplePageMaster.setPageWidth("210mm");//页宽
@@ -82,14 +83,14 @@ public class SurrenderTemp {
 	/**
 	 * 组装page-sequence对象
 	 */
-	public PageSequence createPageSequence(PageSequence pageSequence) throws Exception{
+	private PageSequence createPageSequence(PageSequence pageSequence) throws Exception{
 		pageSequence.setMasterReference("healthy");
-		for(int i =0;i<2 ;i++){
+		for(int i=0 ;i<2 ;i++){
 			StaticContent  staticContent = new StaticContent();
 			if(i==0){
 				pageSequence.getStaticContent().add(pageHeader(staticContent));
-			}else if(i==1){
-				pageSequence.getStaticContent().add(pageFooter(staticContent));				
+			}else {
+				pageSequence.getStaticContent().add(pageFooter(staticContent));
 			}
 		}
 			Flow flow = new Flow();
@@ -99,67 +100,74 @@ public class SurrenderTemp {
 	}
 
 	//页眉
-	public  StaticContent pageHeader(StaticContent content){
-		 
-		 	content.setFlowName("xsl-region-before");
-			 Block block = new Block();
-			 content.getBlockOrBlockContainerOrTable().add(block);
-		 return content;
+	private StaticContent pageHeader(StaticContent content){
+		content.setFlowName("xsl-region-before");
+		Block block = new Block();
+		content.getBlockOrBlockContainerOrTable().add(block);
+		return content;
 	}
 
 	// 页脚
-	public  StaticContent pageFooter(StaticContent content){
-		  	  Block block;
-		  	  content.setFlowName("xsl-region-after");
-			  
-			  block = new Block();
-			  content.getBlockOrBlockContainerOrTable().add(block);
-
-		  
-		  return content;
+	private StaticContent pageFooter(StaticContent content){
+		Block block;
+		content.setFlowName("xsl-region-after");
+		block = new Block();
+		content.getBlockOrBlockContainerOrTable().add(block);
+		return content;
 	}
-
 
 	/**
 	 * 构建flow标签及其属性和子标签
 	 */
-	public  Flow makeFirstFlow(Flow flow) throws Exception{
-		  Block block;
-		  flow.setFlowName("xsl-region-body");
-		  
-		  for(int i=0;i<200;i++){
-			  block = new Block();
-			  block.setFontSize("7pt");
-			  block.setLineHeight("12pt");
-			  block.setFontFamily("msyh");
-			  block.getContent().add("�����ð��ϵ»����������ҿ��˴���˼���adadsa��");
-			  flow.getMarkerOrBlockOrBlockContainer().add(block); 			  
-		  }
-			  
-	      Leader leader2 = new Leader();
-		  drawLine(leader2);
-		  block = new Block();
-		  block.getContent().add(leader2);
-		  flow.getMarkerOrBlockOrBlockContainer().add(block);
-		  
-		  
-		  return flow;
-	}
+	private Flow makeFirstFlow(Flow flow) throws Exception{
+		Block block;
+		flow.setFlowName("xsl-region-body");
 
-	public Block createBlock(Block block,String fontSize,TextAlignType textAlign){
-		
-		return block;
+		for(int i=0;i<1;i++){
+			block = new Block();
+			block.setFontSize("7pt");
+			block.setLineHeight("12pt");
+			block.setFontFamily("msyh");
+			String content = readTxtFile("src//main//resources//test//test1//arti.txt");
+			block.getContent().add(content);
+			flow.getMarkerOrBlockOrBlockContainer().add(block);
+		}
+
+		Leader leader2 = new Leader();
+		drawLine(leader2);
+		block = new Block();
+		block.getContent().add(leader2);
+		flow.getMarkerOrBlockOrBlockContainer().add(block);
+
+		return flow;
 	}
 	
 	/**
 	 * 划线
 	 */
-	public Leader drawLine(Leader leader2) {
+	private void drawLine(Leader leader2) {
 		leader2.setLeaderPattern(LeaderPatternType.RULE);
 		leader2.getLeaderLength().add("80%");
 		leader2.setLeaderPatternWidth("0.001mm");
 		leader2.setColor("black");
-		return leader2;
 	}
-	
+
+	/**
+	 * 读取txt
+	 */
+	private String readTxtFile( String filePath ) throws IOException{
+		File file = new File(filePath);//定义一个file对象，用来初始化FileReader
+		//FileReader reader = new FileReader(file);//定义一个fileReader对象，用来初始化BufferedReader
+		InputStreamReader reader = new InputStreamReader(new FileInputStream(file), "gbk");
+		BufferedReader bReader = new BufferedReader(reader);//new一个BufferedReader对象，将文件内容读取到缓存
+		StringBuilder sb = new StringBuilder();//定义一个字符串缓存，将字符串存放缓存中
+		String s = "";
+		while ((s =bReader.readLine()) != null) {//逐行读取文件内容，不读取换行符和末尾的空格
+			sb.append(s + "\n");//将读取的字符串添加换行符后累加存放在缓存中
+			System.out.println(s);
+		}
+		bReader.close();
+		String str = sb.toString();
+		return str;
+	}
 }

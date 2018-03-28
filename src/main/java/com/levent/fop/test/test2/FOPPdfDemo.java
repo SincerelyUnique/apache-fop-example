@@ -25,7 +25,7 @@ public class FOPPdfDemo {
 	
 	static {
 		// 资源路径
-		RESOURCES_DIR = "src//main//resources//";
+		RESOURCES_DIR = "src//main//resources//test//test2";
 		// 输出路径
 		OUTPUT_DIR = "src//main//resources//output//";
 	}

@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!-- $Id: fop.xconf 1616312 2014-08-06 19:19:31Z gadams $ -->
+
+<!--
+
+This is an example configuration file for FOP.
+This file contains the same settings as the default values
+and will have no effect if used unchanged.
+
+Relative config url's will be resolved relative to
+the location of this file.
+
+-->
+
+<!-- NOTE: This is the version of the configuration -->
+
+<!-- $Id: fop.xml 901793 2012-12-21 bin.yin $ -->
+<!-- NOTE: This is the version of the configuration -->
+<fop version="1.0">
+ <!-- Strict user configuration -->
+ <strict-configration>true</strict-configration>
+ <!-- strict of validation -->
+ <strict-validation>true</strict-validation>
+  <!-- Base URL for resolving relative URLs -->
+  <base> ./ </base>
+  <!-- base -->
+  <!-- Source resolution in dpi (dots/pixels per inch) for determining the size of pixels in SVG and bitmap images, default: 72dpi -->
+  <source-resolution>72</source-resolution>
+  <!-- Target resolution in dpi (dots/pixels per inch) for specifying the target resolution for generated bitmaps, default: 72dpi -->
+  <target-resolution>72</target-resolution>
+
+  <!-- Default page-height and page-width, in case value is specified as auto -->
+  <default-page-settings height="29.7cm" width="40cm"/>
+
+  <!-- Information for specific renderers -->
+  <!-- Uses renderer mime type for renderers -->
+  <renderers>
+    <renderer mime="application/pdf">
+      <filterList>
+        <!-- provides compression using zlib flate (default is on) -->
+        <value>flate</value>
+      </filterList>
+
+
+      <fonts>
+        <!-- embedded fonts -->
+        <!--
+        This information must exactly match the font specified
+        in the fo file. Otherwise it will use a default font.
+
+        For example,
+        <fo:inline font-family="Arial" font-weight="bold" font-style="normal">
+            Arial-normal-normal font
+        </fo:inline>
+        for the font triplet specified by:
+        <font-triplet name="Arial" style="normal" weight="bold"/>
+
+        If you do not want to embed the font in the pdf document
+        then do not include the "embed-url" attribute.
+        The font will be needed where the document is viewed
+        for it to be displayed properly.
+
+        possible styles: normal | italic | oblique | backslant
+        possible weights: normal | bold | 100 | 200 | 300 | 400
+                          | 500 | 600 | 700 | 800 | 900
+        (normal = 400, bold = 700)
+        -->
+
+        <font metrics-url="simsun.xml" kerning="yes" embed-url="SIMSUN.TTC">
+          <font-triplet name="SimSun" style="normal" weight="normal" />
+          <font-triplet name="Simsun" style="normal" weight="bold" />
+          <font-triplet name="SimSun" style="italic" weight="normal" />
+          <font-triplet name="SimSun" style="italic" weight="bold" />
+        </font>
+        <font metrics-url="simhei.xml" kerning="yes" embed-url="simhei.ttf">
+          <font-triplet name="SimHei" style="normal" weight="normal" />
+          <font-triplet name="SimHei" style="normal" weight="bold" />
+          <font-triplet name="SimHei" style="italic" weight="normal" />
+          <font-triplet name="SimHei" style="italic" weight="bold" />
+        </font>
+         <font metrics-url="stzhongs.xml" kerning="yes" embed-url="STZHONGS.TTF">
+          <font-triplet name="StZhongs" style="normal" weight="normal" />
+          <font-triplet name="StZhongs" style="normal" weight="bold" />
+          <font-triplet name="StZhongs" style="italic" weight="normal" />
+          <font-triplet name="StZhongs" style="italic" weight="bold" />
+        </font>
+        
+        <font metrics-url="songcu.xml" kerning="yes" embed-url="songcu.TTF">
+          <font-triplet name="SongCu" style="normal" weight="normal" />
+          <font-triplet name="SongCu" style="normal" weight="bold" />
+          <font-triplet name="SongCu" style="italic" weight="normal" />
+          <font-triplet name="SongCu" style="italic" weight="bold" />
+        </font>
+        <font metrics-url="Hsongcu.xml" kerning="yes" embed-url="Hcusong.ttf">
+          <font-triplet name="HsongCu" style="normal" weight="normal" />
+          <font-triplet name="HsongCu" style="normal" weight="bold" />
+          <font-triplet name="HsongCu" style="italic" weight="normal" />
+          <font-triplet name="HsongCu" style="italic" weight="bold" />
+        </font>
+        <font metrics-url="songhei.xml" kerning="yes" embed-url="songhei.ttf">
+          <font-triplet name="SongHei" style="normal" weight="normal" />
+          <font-triplet name="SongHei" style="normal" weight="bold" />
+          <font-triplet name="SongHei" style="italic" weight="normal" />
+          <font-triplet name="SongHei" style="italic" weight="bold" />
+        </font>
+        <font metrics-url="msyhbd.xml" kerning="yes" embed-url="msyhbd.ttf">
+          <font-triplet name="msyhbd" style="normal" weight="normal" />
+          <font-triplet name="msyhbd" style="normal" weight="bold" />
+          <font-triplet name="msyhbd" style="italic" weight="normal" />
+          <font-triplet name="msyhbd" style="italic" weight="bold" />
+        </font>
+        <font metrics-url="msyh.xml" kerning="yes" embed-url="msyh.ttf">
+          <font-triplet name="msyh" style="normal" weight="normal" />
+          <font-triplet name="msyh" style="normal" weight="bold" />
+          <font-triplet name="msyh" style="italic" weight="normal" />
+          <font-triplet name="msyh" style="italic" weight="bold" />
+        </font>
+        
+        
+       </fonts>
+
+    </renderer>
+    <renderer mime="application/postscript">
+      <!-- This option forces the PS renderer to rotate landscape pages -->
+      <!--auto-rotate-landscape>true</auto-rotate-landscape-->
+
+      <!-- This option lets you specify additional options on an XML handler -->
+      <!--xml-handler namespace="http://www.w3.org/2000/svg">
+        <stroke-text>false</stroke-text>
+      </xml-handler-->
+    </renderer>
+
+    <renderer mime="image/png">
+      <!--transparent-page-background>true</transparent-page-background-->
+    </renderer>
+
+    <renderer mime="image/tiff">
+      <!--transparent-page-background>true</transparent-page-background-->
+      <!--compression>CCITT T.6</compression-->
+    </renderer>
+
+    <renderer mime="text/xml">
+    </renderer>
+
+  </renderers>
+
+</fop>
